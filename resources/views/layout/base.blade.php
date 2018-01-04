@@ -4,68 +4,30 @@
     <title>Laravel Test</title>
     <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
-
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 </head>
 <body>
 
-	@include('layout.partials.nav')
+@include('layout.partials.nav')
 
 
+<section>
+    @yield('content')
+</section>
 
-	<section>
-		@yield('content')
-	</section>
+<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+<script src="{{asset('js/main.js')}}"></script>
 
 
-	
-    <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
-    <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+<section>
+    @yield('script')
+</section>
 
-    <section>
-        @yield('script')
-    </section>
 
-	<script>
-
-    $(document).ready(function(){
-
-        $(".submit").click(function(){
-
-            var a = $(".formPayment").serialize();
-
-            console.log(a);
-            console.log("AS");
-
-        });
-
-        $(".makeRequest").click(function(){
-
-            window.location.href='/payment';
-
-        });
-
-        $(".detail").click(function () {
-
-            var id = $(this).data("room");
-
-            $("#" + id).toggleClass("hideTable");
-        });
-
-        function getTaxes(price){
-            console.log(price);
-            console.log("price");
-
-        }    
-
-        $(".btnRooms").click(function(){
-
-            var id = $(this).data("room");
-
-            $("#" + id).fadeToggle();
-        });
-    });
-
-</script>
 
 </body>
 </html>

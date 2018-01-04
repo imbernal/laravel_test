@@ -5,24 +5,53 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Hotel;
 use App\Room;
+use App\Rate;
 use App\Reservation;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+
 
 class MainController extends Controller
 {
     public function index(){
 
         $hotels = Hotel::all();
-       
+
         return view('hotels.index' , ['hotels'=>$hotels]);
     }
 
     public function search(Request $request){
  		
- 		$name = $request->query('name');
+ 		$search = $request->query('search');
 
- 		$hotels = Hotel::where('name','like','%'. $name .'%')->get();
+ 		$hotels = Hotel::where('address','like','%'. $search.'%')->get();
        
-        return view('hotels.index' , ['hotels'=>$hotels]);    
+        return view('hotels.index' , ['hotels'=>$hotels]);
+    }
+
+    public function search_by_date(Request $request){
+        
+        $dates = $request->query('daterange');
+        $aux = explode(' ' , $dates);
+
+
+        $aux = DB::table('hotels')
+        ->Join("rooms" , 'hotels.id' , '=' , 'rooms.hotel_id')
+        ->Join("rates" , 'rooms.id' , '=' , 'rates.room_id')
+        ->where("rates.date_start" , '>=' , $aux[0])
+        ->where("rates.date_end" , "<=" , $aux[2])
+        ->select('hotels.id')
+        ->get();
+
+        
+
+        $hotels = $aux->map(function($item){
+            return Hotel::findOrFail($item->id);
+        });
+
+
+        return view('hotels.index' , ['hotels'=>$hotels]);
     }
 
     public function payment(Request $request){

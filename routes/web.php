@@ -11,18 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
-Route::get('/hotels/' ,[
+
+Route::get('/',[
     'uses'=> "MainController@index",
     'as' => "hotelsView"
 ]);
 
 Route::get('/search' ,[
     'uses'=> "MainController@search",
+    'as' => "hotelsSearch"
+]);
+
+Route::get('/search_by_date' ,[
+    'uses'=> "MainController@search_by_date",
     'as' => "hotelsSearch"
 ]);
 
